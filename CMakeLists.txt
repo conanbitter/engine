@@ -15,6 +15,8 @@ add_executable(engine
     src/app.cpp
     src/shaders.hpp
     src/shaders.cpp
+    src/spritebatch.hpp
+    src/spritebatch.cpp
 )
 
 target_include_directories(engine
