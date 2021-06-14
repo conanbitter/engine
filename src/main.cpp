@@ -9,7 +9,8 @@ int main() {
     ami::AppWindowOptions opts{
         width : SCREEN_WIDTH,
         height : SCREEN_HEIGHT,
-        vsync : true
+        vsync : true,
+        mode : ami::WindowMode::Windowed
     };
 
     try {

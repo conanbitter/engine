@@ -15,10 +15,17 @@ struct AppException : public std::exception {
     const char* what() const noexcept override;
 };
 
+enum class WindowMode {
+    Windowed,
+    Fullscreen,
+    FullscreenBorderless
+};
+
 struct AppWindowOptions {
     int width;
     int height;
     bool vsync;
+    WindowMode mode;
 };
 
 class AppWindow {

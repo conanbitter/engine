@@ -35,13 +35,20 @@ AppWindow::AppWindow(const AppWindowOptions& options)
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
+    uint32_t flags = SDL_WINDOW_OPENGL;
+    if (options.mode == WindowMode::Fullscreen) {
+        flags |= SDL_WINDOW_FULLSCREEN;
+    } else if (options.mode == WindowMode::FullscreenBorderless) {
+        flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+    }
+
     window = SDL_CreateWindow(
         "Engine",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         windowWidth,
         windowHeight,
-        SDL_WINDOW_OPENGL);
+        flags);
     context = SDL_GL_CreateContext(window);
     if (context == NULL) {
         throw AppException("SDL", "Error creating context", getSDLError());
