@@ -1,9 +1,41 @@
 #include "app.hpp"
+#include "shaders.hpp"
 
 #include <sstream>
 #include <gl/gl_core_3_2.hpp>
 
 namespace ami {
+
+const string vertexShaderCode = R"(
+    #version 410
+
+	layout(location = 0) in vec2 vert;
+	layout(location = 1) in vec2 vertUV;
+	layout(location = 2) in vec4 vertColor;
+
+	out vec2 fragUV;
+	out vec4 fragColor;
+
+    void main() {
+		gl_Position = vec4(vert.x, vert.y, 0.0, 1.0);
+		fragUV = vertUV;
+		fragColor = vertColor;
+    }
+)";
+
+const string fragmentShaderCode = R"(
+    #version 410
+    uniform sampler2D tex;
+
+    in vec2 fragUV;
+    in vec4 fragColor;
+
+    layout(location = 0) out vec4 outputColor;
+
+    void main() {
+        outputColor = texture(tex, fragUV)*fragColor;
+    }
+)";
 
 AppException::AppException(const string& component, const string& error, const string& description) {
     stringstream buf;
@@ -28,7 +60,8 @@ string AppWindow::getSDLError() {
 }
 
 AppWindow::AppWindow(const AppWindowOptions& options)
-    : windowWidth{options.width}, windowHeight{options.height} {
+    : windowWidth{options.width},
+      windowHeight{options.height} {
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
@@ -75,6 +108,7 @@ AppWindow::~AppWindow() {
 }
 
 void AppWindow::run() {
+    ShaderProgram defaultShader(vertexShaderCode, fragmentShaderCode);
     SDL_Event event;
     bool working = true;
     while (working) {
@@ -88,6 +122,7 @@ void AppWindow::run() {
 
         gl::ClearColor(0.15f, 0.15f, 0.15f, 1.0f);
         gl::Clear(gl::COLOR_BUFFER_BIT);
+        defaultShader.bind();
 
         SDL_GL_SwapWindow(window);
         SDL_Delay(5);

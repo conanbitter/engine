@@ -13,6 +13,8 @@ add_executable(engine
     src/main.cpp
     src/app.hpp
     src/app.cpp
+    src/shaders.hpp
+    src/shaders.cpp
 )
 
 target_include_directories(engine
