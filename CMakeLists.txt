@@ -11,6 +11,8 @@ find_package(STB REQUIRED)
 add_executable(engine
     ${GL_LOAD_GEN_DIR}/gl/gl_core_3_2.cpp
     src/main.cpp
+    src/app.hpp
+    src/app.cpp
 )
 
 target_include_directories(engine
