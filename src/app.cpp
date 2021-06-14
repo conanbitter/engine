@@ -4,7 +4,7 @@
 #include <sstream>
 #include <gl/gl_core_3_2.hpp>
 
-namespace ami {
+namespace mrm {
 
 const string vertexShaderCode = R"(
     #version 410
@@ -133,4 +133,4 @@ void AppWindow::messageBox(const string& message) {
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Application error", message.c_str(), NULL);
 }
 
-}  // namespace ami
+}  // namespace mrm

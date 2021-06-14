@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include <string>
 
-namespace ami {
+namespace mrm {
 
 using namespace std;
 
@@ -44,4 +44,4 @@ class AppWindow {
     static void messageBox(const string& message);
 };
 
-}  // namespace ami
+}  // namespace mrm

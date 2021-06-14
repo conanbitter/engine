@@ -4,7 +4,7 @@
 #include <gl/gl_core_3_2.hpp>
 #include <string>
 
-namespace ami {
+namespace mrm {
 
 string ShaderProgram::getShaderLog(GLuint shader) {
     if (gl::IsShader(shader)) {
@@ -143,4 +143,4 @@ void ShaderProgram::setUniform(string uniform, GLfloat a, GLfloat b) {
     gl::Uniform2f(handle, a, b);
 }
 
-}  // namespace ami
+}  // namespace mrm

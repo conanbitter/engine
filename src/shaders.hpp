@@ -3,7 +3,7 @@
 #include <gl/gl_core_3_2.hpp>
 #include <string>
 
-namespace ami {
+namespace mrm {
 
 using namespace std;
 
@@ -34,4 +34,4 @@ class ShaderProgram {
     void setUniform(string uniform, GLfloat a, GLfloat b);
 };
 
-}  // namespace ami
+}  // namespace mrm
