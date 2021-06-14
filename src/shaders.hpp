@@ -17,9 +17,12 @@ class ShaderProgram {
     GLuint program;
 
    public:
+    ShaderProgram() : program{0} {};
     ShaderProgram(const string& vertexShader, const string& fragmentShader);
     ~ShaderProgram();
     void bind();
+    bool isValid();
+    void load(const string& vertexShader, const string& fragmentShader);
 
     operator GLuint() const {
         return program;
@@ -32,6 +35,12 @@ class ShaderProgram {
     void setUniform(string uniform, GLint value);
     void setUniform(string uniform, GLfloat value);
     void setUniform(string uniform, GLfloat a, GLfloat b);
+
+    // Rule of five
+    ShaderProgram(const ShaderProgram& prog) = delete;
+    ShaderProgram& operator=(const ShaderProgram& prog) = delete;
+    ShaderProgram(ShaderProgram&& prog);
+    ShaderProgram& operator=(ShaderProgram&& prog);
 };
 
 }  // namespace mrm

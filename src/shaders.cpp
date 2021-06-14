@@ -66,6 +66,39 @@ GLuint ShaderProgram::compileShader(const string &source, GLenum shaderType) {
 }
 
 ShaderProgram::ShaderProgram(const string &vertexShader, const string &fragmentShader) {
+    load(vertexShader, fragmentShader);
+};
+
+ShaderProgram::~ShaderProgram() {
+    if (gl::IsProgram(program)) {
+        gl::DeleteProgram(program);
+    }
+}
+
+ShaderProgram::ShaderProgram(ShaderProgram &&prog) : program{prog} {
+    prog.program = 0;
+}
+
+ShaderProgram &ShaderProgram::operator=(ShaderProgram &&prog) {
+    if (gl::IsProgram(program)) {
+        gl::DeleteProgram(program);
+    }
+    program = prog.program;
+    prog.program = 0;
+    return *this;
+}
+
+bool ShaderProgram::isValid() {
+    return gl::IsProgram(program);
+}
+
+void ShaderProgram::bind() {
+    if (gl::IsProgram(program)) {
+        gl::UseProgram(program);
+    }
+}
+
+void ShaderProgram::load(const string &vertexShader, const string &fragmentShader) {
     program = gl::CreateProgram();
 
     GLuint compiledVertexShader = compileShader(vertexShader, gl::VERTEX_SHADER);
@@ -79,16 +112,6 @@ ShaderProgram::ShaderProgram(const string &vertexShader, const string &fragmentS
     if (result != true) {
         throw AppException("OpenGL", "Shader link error", getProgramLog(program));
     }
-};
-
-ShaderProgram::~ShaderProgram() {
-    if (gl::IsProgram(program)) {
-        gl::DeleteProgram(program);
-    }
-}
-
-void ShaderProgram::bind() {
-    gl::UseProgram(program);
 }
 
 GLint ShaderProgram::getUniformHandle(string name) {
