@@ -15,6 +15,12 @@ struct AppException : public std::exception {
     const char* what() const noexcept override;
 };
 
+struct AppWindowOptions {
+    int width;
+    int height;
+    bool vsync;
+};
+
 class AppWindow {
    private:
     SDL_Window* window;
@@ -25,10 +31,10 @@ class AppWindow {
     static string getSDLError();
 
    public:
-    AppWindow(int width, int height);
+    AppWindow(const AppWindowOptions& options);
     ~AppWindow();
     void run();
-    static void messageBox(string message);
+    static void messageBox(const string& message);
 };
 
 }  // namespace ami

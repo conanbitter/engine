@@ -18,36 +18,6 @@ const char* AppException::what() const noexcept {
     return message.c_str();
 }
 
-const string vertexShaderCode = R"(
-    #version 410
-
-    layout(location = 0) in vec3 vert;
-    layout(location = 1) in vec2 vertUV;
-
-    out vec2 fragUV;
-
-    uniform mat4 perspMat;
-    uniform mat4 rotMat;
-
-    void main() {
-        gl_Position = perspMat * rotMat * vec4(vert.x, vert.y, vert.z, 1.0);
-        fragUV = vertUV;
-    }
-)";
-
-const string fragmentShaderCode = R"(
-    #version 410
-    uniform sampler2D tex;
-
-    in vec2 fragUV;
-
-    layout(location = 0) out vec4 outputColor;
-
-    void main() {
-        outputColor = texture(tex, vec2(fragUV.x/2,fragUV.y));
-    }
-)";
-
 string AppWindow::getSDLError() {
     const char* error = SDL_GetError();
     if (error != nullptr) {
@@ -57,7 +27,8 @@ string AppWindow::getSDLError() {
     }
 }
 
-AppWindow::AppWindow(int width, int height) : windowWidth{width}, windowHeight{height} {
+AppWindow::AppWindow(const AppWindowOptions& options)
+    : windowWidth{options.width}, windowHeight{options.height} {
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
@@ -75,6 +46,8 @@ AppWindow::AppWindow(int width, int height) : windowWidth{width}, windowHeight{h
     if (context == NULL) {
         throw AppException("SDL", "Error creating context", getSDLError());
     }
+
+    SDL_GL_SetSwapInterval(options.vsync ? 1 : 0);
 
     gl::exts::LoadTest glLoadResult = gl::sys::LoadFunctions();
     if (!glLoadResult) {
@@ -114,7 +87,7 @@ void AppWindow::run() {
     }
 }
 
-void AppWindow::messageBox(string message) {
+void AppWindow::messageBox(const string& message) {
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Application error", message.c_str(), NULL);
 }
 
