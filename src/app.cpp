@@ -1,6 +1,7 @@
 #include "app.hpp"
 #include "shaders.hpp"
 #include "spritebatch.hpp"
+#include "textures.hpp"
 
 #include <sstream>
 #include <gl/gl_core_3_2.hpp>
@@ -34,7 +35,7 @@ const string fragmentShaderCode = R"(
     layout(location = 0) out vec4 outputColor;
 
     void main() {
-        outputColor = vec4(0.5, 0.5, 0.0, 1.0); //texture(tex, fragUV)*fragColor;
+        outputColor = texture(tex, fragUV)*fragColor;
     }
 )";
 
@@ -97,6 +98,7 @@ AppWindow::AppWindow(const AppWindowOptions& options)
 
     // OpenGL stuff
     gl::Enable(gl::BLEND);
+    gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
     gl::Disable(gl::DEPTH_TEST);
     gl::PixelStorei(gl::UNPACK_ALIGNMENT, 1);
     gl::ClearColor(0.15f, 0.15f, 0.15f, 1.0f);
@@ -115,6 +117,8 @@ AppWindow::~AppWindow() {
 void AppWindow::run() {
     ShaderProgram defaultShader(vertexShaderCode, fragmentShaderCode);
     SpriteBatch batch;
+    Texture back;
+    back.loadFromFile("../../assets/001.png");
     batch.init();
     SDL_Event event;
     bool working = true;
@@ -130,6 +134,7 @@ void AppWindow::run() {
         gl::ClearColor(0.15f, 0.15f, 0.15f, 1.0f);
         gl::Clear(gl::COLOR_BUFFER_BIT);
         defaultShader.bind();
+        back.bind();
         batch.end();
 
         SDL_GL_SwapWindow(window);

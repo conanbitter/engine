@@ -42,10 +42,10 @@ void SpriteBatch::begin() {
 
 void SpriteBatch::end() {
     static Vertex quad[4] = {
-        {Vec2{-0.5f, -0.5f}, Vec2{0, 0}, Color::White},
-        {Vec2{0.5f, -0.5f}, Vec2{0, 0}, Color::White},
-        {Vec2{0.5f, 0.5f}, Vec2{0, 0}, Color::White},
-        {Vec2{-0.5f, 0.5f}, Vec2{0, 0}, Color::White}};
+        {Vec2{-0.5f, -0.5f}, Vec2{0, 0}, Color::Red},
+        {Vec2{0.5f, -0.5f}, Vec2{1, 0}, Color::Blue},
+        {Vec2{0.5f, 0.5f}, Vec2{1, 1}, Color::Green},
+        {Vec2{-0.5f, 0.5f}, Vec2{0, 1}, Color::White}};
 
     static uint32_t elts[6] = {0, 1, 2, 0, 2, 3};
 
