@@ -49,8 +49,8 @@ class SpriteBatch {
     SpriteBatch() : valid{false}, vao{0}, vbo{0}, ebo{0} {};
     ~SpriteBatch();
     void init();
-    void beginDraw();
-    void endDraw();
+    void begin();
+    void end();
 
     // Rule of five
     SpriteBatch(const SpriteBatch& prog) = delete;
